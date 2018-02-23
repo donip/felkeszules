@@ -26,6 +26,13 @@ function successAjax(xhttp) {
     document.querySelector('#newthead').innerHTML = fillTableHeader(headerData);
     document.querySelector('#newtbody').innerHTML = fillTableBody(newData);
 
+    document.getElementById("button90").addEventListener("click", function () {
+        bornBefore90(newData)
+    });
+    document.getElementById("buttonEldest").addEventListener("click", function () {
+        eldest3(newData)
+    });
+    //bornBefore90(newData);
     /*
       Pár sorral lejebb majd ezt olvashatod:
       IDE ÍRD A FÜGGVÉNYEKET!!!!!! NE EBBE AZ EGY SORBA HANEM INNEN LEFELÉ!
@@ -58,9 +65,9 @@ function fillTableHeader(data) {
     return tableHeadData;
 }
 
-function fillTableBody(data) {
+function fillTableBody(data, loops = data.length) {
     var tableBodyData = '';
-    for (var i = 0; i < data.length; i++) {
+    for (var i = 0; i < loops; i++) {
         tableBodyData += '<tr>';
         for (var k in data[i]) {
             if (data[i][k]) {
@@ -72,4 +79,49 @@ function fillTableBody(data) {
         tableBodyData += '</tr>';
     }
     return tableBodyData;
+}
+
+// ----------- 90 ELOTTI SZULETESUEK -----------
+function bornBefore90(data) {
+    var filteredData = [];
+    for (var i = 0; i < data.length; i++) {
+        if (parseInt(data[i].birthdate.substring(0, 4)) < 1990) {
+            filteredData.push(data[i].username);
+        }
+    }
+    document.querySelector('#newthead').innerHTML = `<th>Azonosító</th>`;
+    document.querySelector('#newtbody').innerHTML = insertFilteredData(filteredData);
+    // return filteredData;
+}
+// ------------ EGYSZERU ARRAY TABLAZATBA TOLTESE --------------
+function insertFilteredData(data) {
+    var tableBodyData = '';
+    for (var i = 0; i < data.length; i++) {
+        tableBodyData += `<tr><td>${data[i]}</td></tr>`;
+    }
+    return tableBodyData;
+}
+
+// ------------- 3 Legidosebb ember ------------------
+function eldest3(data) {
+    var sortedData = sortStringsWithDotSort(data, 'birthdate');
+    console.log(sortedData);
+    document.querySelector('#newtbody').innerHTML = fillTableBody(sortedData, 3);
+}
+// ----------- SORBARENDEZO FUGGVENY -------------
+function sortStringsWithDotSort(data, key) {
+    data.sort(function (a, b) {
+        var nameA = a[key].toLowerCase();
+        var nameB = b[key].toLowerCase();
+        //return nameA.localeCompare(nameB); //magyar abc szerint
+        if (nameA < nameB) { //angol abc szerint
+            return -1;
+        }
+        if (nameA > nameB) {
+            return 1;
+        }
+        return 0;
+    });
+    return data;
+
 }
