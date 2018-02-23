@@ -1,0 +1,43 @@
+[type='button'] {
+    padding: 10px;
+}
+
+.button-div {
+    margin-bottom: 25px;
+    padding: 10px;
+}
+
+.table-div {
+    padding: 10px;
+}
+
+table {
+    border: 4px solid steelblue;
+    border-collapse: collapse;
+    box-shadow: 10px 10px 15px slategrey;
+}
+
+th {
+    background: steelblue;
+    border-bottom: 3px solid steelblue;
+    border-right: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: 0 5px 10px slategray;
+    color: white;
+    font-weight: bold;
+    padding: 5px;
+}
+
+td {
+    border-right: 1px solid rgba(70, 131, 180, 0.3);
+    padding: 5px;
+    text-align: center;
+}
+
+tr:nth-child(even) {
+    background: rgb(181, 213, 230);
+}
+
+td:first-child {
+    font-size: 18px;
+    font-weight: bold;
+}
