@@ -108,8 +108,24 @@ function insertFilteredData(data) {
 // ------------- 3 Legidosebb ember ------------------
 function eldest3(data) {
     var sortedData = sortStringsWithDotSort(data, 'birthdate');
-    console.log(sortedData);
-    document.querySelector('#newtbody').innerHTML = fillTableBody(sortedData, 3);
+
+    var filteredData = [];
+    for (var i = 0; i < 3; i++) {
+        filteredData.push({
+            0: sortedData[i].firstname,
+            1: sortedData[i].lastname,
+            2: sortedData[i].birthdate
+        });
+    }
+
+
+    document.querySelector('#newtbody').innerHTML = fillTableBody(filteredData);
+    var headArray = ['Vezetéknév', 'Keresztnév', 'Születési dátum'];
+    var tableHeadData = '';
+    for (var k in headArray) {
+        tableHeadData += `<th>${headArray[k]}</th>`; //filling thead from headerData[]
+    }
+    document.querySelector('#newthead').innerHTML = tableHeadData;
 }
 // ----------- SORBARENDEZO FUGGVENY -------------
 function sortStringsWithDotSort(data, key) {
@@ -137,10 +153,21 @@ function bornBetween(data) {
     for (var i = 0; i < data.length; i++) {
         if (parseInt(data[i].birthdate.substring(0, 4)) < 2001 && parseInt(data[i].birthdate.substring(0, 4)) > 1899 &&
             data[i].sex === 'férfi' && data[i].state) {
-            filteredData.push(data[i]);
+            filteredData.push({
+                0: data[i].firstname,
+                1: data[i].lastname
+            });
         }
     }
-    document.querySelector('#newthead').innerHTML = `<th>Azonosító</th>`;
     document.querySelector('#newtbody').innerHTML = fillTableBody(filteredData);
-    // return filteredData;
+
+    var headArray = ['Vezetéknév', 'Keresztnév'];
+    var tableHeadData = '';
+    for (var k in headArray) {
+        tableHeadData += `<th>${headArray[k]}</th>`; //filling thead from headerData[]
+    }
+    document.querySelector('#newthead').innerHTML = tableHeadData;
+
 }
+
+//------------------------------------------
