@@ -32,6 +32,9 @@ function successAjax(xhttp) {
     document.getElementById("buttonEldest").addEventListener("click", function () {
         eldest3(newData)
     });
+    document.getElementById("betweenFilter").addEventListener("click", function () {
+        bornBetween(newData)
+    });
     //bornBefore90(newData);
     /*
       Pár sorral lejebb majd ezt olvashatod:
@@ -124,4 +127,20 @@ function sortStringsWithDotSort(data, key) {
     });
     return data;
 
+}
+
+//-----------------------------------------------------------------
+
+function bornBetween(data) {
+    var sortedData = sortStringsWithDotSort(data, 'firstname');
+    var filteredData = [];
+    for (var i = 0; i < data.length; i++) {
+        if (parseInt(data[i].birthdate.substring(0, 4)) < 2001 && parseInt(data[i].birthdate.substring(0, 4)) > 1899 &&
+            data[i].sex === 'férfi' && data[i].state) {
+            filteredData.push(data[i]);
+        }
+    }
+    document.querySelector('#newthead').innerHTML = `<th>Azonosító</th>`;
+    document.querySelector('#newtbody').innerHTML = fillTableBody(filteredData);
+    // return filteredData;
 }
