@@ -38,6 +38,10 @@ function successAjax(xhttp) {
     document.getElementById("button2000").addEventListener("click", function () {
         bornBeforeOrNotBp(newData)
     });
+
+    staisticsEldest(newData);
+    statisticsYoungest(newData);
+    statisticsSumAvg(newData);
     //bornBefore90(newData);
     /*
       Pár sorral lejebb majd ezt olvashatod:
@@ -178,14 +182,6 @@ function bornBetween(data) {
 
 /*function cityCount(data) {
 
-    var filteredData = [];
-    for (var i = 0; i < data.length; i++) {
-        if ((< 1990) {
-            filteredData.push(data[i].username);
-        }
-    }
-    document.querySelector('#newthead').innerHTML = `<th>Azonosító</th>`;
-    document.querySelector('#newtbody').innerHTML = insertFilteredData(filteredData);
 }*/
 
 //-------------------------------------
@@ -211,4 +207,58 @@ function bornBeforeOrNotBp(data) {
         tableHeadData += `<th>${headArray[k]}</th>`; //filling thead from headerData[]
     }
     document.querySelector('#newthead').innerHTML = tableHeadData;
+}
+
+//------------------ STATISTICS ---------------------
+
+
+function staisticsEldest(data) {
+    var destination = document.querySelector('.statistics-div');
+    destination.innerHTML = '<p id="pEldest"></p>';
+    var min = data[0].birthdate;
+    var result = '';
+    for (i = 0; i < data.length; i++) {
+        if (data[i].birthdate > '1600. 01. 01' && data[i].birthdate < min) {
+            min = data[i].birthdate;
+            var date = new Date(data[i].birthdate);
+
+            result = data[i].username + ' ' + date.getFullYear() + '. ' + (date.getMonth() + 1) + '. ' + date.getDay() + '.';
+        }
+    }
+    document.getElementById('pEldest').innerHTML = 'A legidősebb: ' + result;
+}
+//---------------------------------------------
+
+function statisticsYoungest(data) {
+    var destination = document.querySelector('.statistics-div');
+    destination.innerHTML += '<p id="pYoungest"></p>';
+    var max = data[0].birthdate;
+    var result = '';
+    for (i = 0; i < data.length; i++) {
+        if (data[i].birthdate > '1600. 01. 01' && data[i].birthdate > max) {
+            max = data[i].birthdate;
+            var date = new Date(data[i].birthdate);
+
+            result = data[i].username + ' ' + date.getFullYear() + '. ' + (date.getMonth() + 1) + '. ' + date.getDay() + '.';
+        }
+    }
+    document.getElementById('pYoungest').innerHTML = 'A legfiatalabb: ' + result;
+}
+
+//-----------------------------------------------------------------------------
+
+function statisticsSumAvg(data) {
+    var destination = document.querySelector('.statistics-div');
+    destination.innerHTML += '<p id="pAvg"></p> <p id="pSum"></p>';
+
+    var currentDate = new Date();
+    var sum = 0;
+
+    for (i = 0; i < data.length; i++) {
+        sum += (Math.floor((currentDate - new Date(data[i].birthdate)) / 31536000000));
+    }
+    var avg = (sum / data.length).toFixed(2);
+    document.getElementById('pSum').innerHTML = 'Eletkorok osszege: ' + sum + ' ev';
+    document.getElementById('pAvg').innerHTML = 'Eletkorok atlaga: ' + avg + ' ev';
+
 }
