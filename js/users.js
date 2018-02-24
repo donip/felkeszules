@@ -35,6 +35,9 @@ function successAjax(xhttp) {
     document.getElementById("betweenFilter").addEventListener("click", function () {
         bornBetween(newData)
     });
+    document.getElementById("button2000").addEventListener("click", function () {
+        bornBeforeOrNotBp(newData)
+    });
     //bornBefore90(newData);
     /*
       Pár sorral lejebb majd ezt olvashatod:
@@ -145,7 +148,7 @@ function sortStringsWithDotSort(data, key) {
 
 }
 
-//-----------------------------------------------------------------
+//-------------------1900 es 2000 kozott ----------------------------------------------
 
 function bornBetween(data) {
     var sortedData = sortStringsWithDotSort(data, 'firstname');
@@ -159,6 +162,7 @@ function bornBetween(data) {
             });
         }
     }
+    // kiratas kulon kene szedni
     document.querySelector('#newtbody').innerHTML = fillTableBody(filteredData);
 
     var headArray = ['Vezetéknév', 'Keresztnév'];
@@ -171,3 +175,40 @@ function bornBetween(data) {
 }
 
 //------------------------------------------
+
+/*function cityCount(data) {
+
+    var filteredData = [];
+    for (var i = 0; i < data.length; i++) {
+        if ((< 1990) {
+            filteredData.push(data[i].username);
+        }
+    }
+    document.querySelector('#newthead').innerHTML = `<th>Azonosító</th>`;
+    document.querySelector('#newtbody').innerHTML = insertFilteredData(filteredData);
+}*/
+
+//-------------------------------------
+
+function bornBeforeOrNotBp(data) {
+    var filteredData = [];
+    for (var i = 0; i < data.length; i++) {
+        if (parseInt(data[i].birthdate.substring(0, 4)) < 2000 || data[i].city != 'Budapest') {
+            filteredData.push({
+                0: data[i].username,
+                1: data[i].firstname,
+                2: data[i].lastname,
+                3: data[i].email,
+                4: data[i].phone
+            });
+        }
+    }
+    document.querySelector('#newtbody').innerHTML = fillTableBody(filteredData);
+
+    var headArray = ['Felhasználónév', 'Vezetéknév', 'Keresztnév', 'Email cím', 'Telefonszám'];
+    var tableHeadData = '';
+    for (var k in headArray) {
+        tableHeadData += `<th>${headArray[k]}</th>`; //filling thead from headerData[]
+    }
+    document.querySelector('#newthead').innerHTML = tableHeadData;
+}

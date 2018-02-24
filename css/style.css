@@ -1,5 +1,22 @@
 [type='button'] {
-    padding: 10px;
+    background: steelblue;
+    border: none;
+    border-radius: 5px;
+    box-shadow: 3px 3px 6px slategrey;
+    color: white;
+    cursor: pointer;
+    margin: 3px;
+    padding: 15px;
+}
+
+[type='button']:hover {
+    background: rgb(21, 108, 180);
+}
+
+[type='button']:focus {
+    background: rgb(21, 108, 180);
+    box-shadow: none;
+    outline: none;
 }
 
 .button-div {
